@@ -1,0 +1,14 @@
+{
+  "name": "roadmapsh-project-task-tracker-node-ts",
+  "version": "1.0.0",
+  "description": "## Requirements",
+  "main": "src/application/task-cli.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}
