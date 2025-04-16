@@ -1,0 +1,7 @@
+services:
+    app:
+        container_name: roadmapsh-project-task-tracker-node-ts-app
+        image: node:22.14-slim
+        volumes:
+            - .:/home/app
+        working_dir: /home/app
