@@ -1,9 +1,9 @@
 import { TaskRepositoryFileSystem } from "../infrastructure/taskRepositoryFileSystem"
-import CreateTask from "../usecase/createTask"
-import DeleteTask from "../usecase/deleteTask"
-import FindTasks from "../usecase/findTasks"
-import ProgressTask from "../usecase/progressTask"
-import UpdateTask from "../usecase/updateTask"
+import CreateTask from "../application/createTask"
+import DeleteTask from "../application/deleteTask"
+import FindTasks from "../application/findTasks"
+import ProgressTask from "../application/progressTask"
+import UpdateTask from "../application/updateTask"
 
 const taskRepository = new TaskRepositoryFileSystem(`${__dirname}/../../db/tasks.json`)
 

@@ -1,10 +1,10 @@
 import { TaskStatus } from "../domain/task"
-import { CreateTaskRequest } from "../usecase/createTask"
-import { DeleteTaskRequest } from "../usecase/deleteTask"
-import { FindTasksRequest } from "../usecase/findTasks"
-import { ProgressTaskRequest } from "../usecase/progressTask"
-import { UpdateTaskRequest } from "../usecase/updateTask"
-import { createTask, deleteTask, findTasks, progressTask, updateTask } from "./container"
+import { CreateTaskRequest } from "../application/createTask"
+import { DeleteTaskRequest } from "../application/deleteTask"
+import { FindTasksRequest } from "../application/findTasks"
+import { ProgressTaskRequest } from "../application/progressTask"
+import { UpdateTaskRequest } from "../application/updateTask"
+import { createTask, deleteTask, findTasks, progressTask, updateTask } from "../config/container"
 import readline from 'readline'
 
 const rl = readline.createInterface({

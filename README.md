@@ -15,4 +15,4 @@ Docker & Docker compose.
 # Use project
 
 1. Run container : `docker compose run --rm app bash`
-2. Run app : `./node_modules/.bin/ts-node src/application/task-cli.ts `
+2. Run app : `./node_modules/.bin/ts-node src/interface/task-cli.ts`
