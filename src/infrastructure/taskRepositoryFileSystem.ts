@@ -96,8 +96,8 @@ export class TaskRepositoryFileSystem implements TaskRepository {
             id: task.id,
             description: task.getDescription(),
             status: TaskStatus[task.getStatus()] as keyof typeof TaskStatus,
-            createdAt: task.createdAt.toString(),
-            updatedAt: task.getUpdatedAt()?.toString() || null,
+            createdAt: task.createdAt.toISOString(),
+            updatedAt: task.getUpdatedAt()?.toISOString() || null,
         }
     }
 
