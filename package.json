@@ -4,12 +4,16 @@
   "description": "## Requirements",
   "main": "src/application/task-cli.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "app": "./node_modules/.bin/ts-node src/interface/task-cli.ts",
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@jest/globals": "^29.7.0",
     "@types/node": "^22.14.1",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.3.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   }
