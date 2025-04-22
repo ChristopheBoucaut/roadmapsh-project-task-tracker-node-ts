@@ -17,3 +17,4 @@ Docker & Docker compose.
 1. Run container : `docker compose run --rm app bash`
 2. Run app : `npm run app`
 3. Run test : `npm test`
+4. Run linter : `npx eslint`
