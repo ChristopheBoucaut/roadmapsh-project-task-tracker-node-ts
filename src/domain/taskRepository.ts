@@ -4,7 +4,7 @@ export default interface TaskRepository {
     find(request: TaskRequest): Task[]
     get(id: string): Task | null
     save(task: Task): void
-    delete(taskOrTaskId: Task | string): Boolean
+    delete(taskOrTaskId: Task | string): boolean
 }
 
 export class TaskRequest {

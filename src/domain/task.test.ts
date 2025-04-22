@@ -1,4 +1,4 @@
-import {describe, expect, it, test} from '@jest/globals';
+import {describe, expect, test} from '@jest/globals';
 import { Task, TaskStatus } from './task';
 
 describe("Check construct and getters", () => {

@@ -12,7 +12,7 @@ const rl = readline.createInterface({
     output: process.stdout,
 })
 
-const actions: Record<string, Function> = {
+const actions: Record<string, () => void> = {
     'add': addAction,
     'update': updateAction,
     'delete': deleteAction,
@@ -71,7 +71,7 @@ function listAction(): void {
     const statusFilters: string[] = [
         'all',
         ...Object.values(TaskStatus)
-            .filter((status): Boolean => typeof status === 'string') as string[]
+            .filter((status): boolean => typeof status === 'string') as string[]
     ]
     rl.question(`Filter on status : ${statusFilters.join(', ')} \n`, (filter: string) => {
         cleanOutput()

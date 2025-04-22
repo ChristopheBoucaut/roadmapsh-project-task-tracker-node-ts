@@ -25,7 +25,7 @@ export class TaskRepositoryInMemory implements TaskRepository {
         this.tasks[task.id] = task
     }
 
-    delete(taskOrTaskId: Task | string): Boolean
+    delete(taskOrTaskId: Task | string): boolean
     {
         const taskIdToDelete = taskOrTaskId instanceof Task ? taskOrTaskId.id : taskOrTaskId
         if (this.tasks[taskIdToDelete]) {

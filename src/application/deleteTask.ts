@@ -22,7 +22,7 @@ export class DeleteTaskRequest {
 
 class DeleteTaskResponse {
     constructor(
-        readonly deleted: Boolean,
+        readonly deleted: boolean,
     ) {
     }
 }

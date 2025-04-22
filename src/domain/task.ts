@@ -21,7 +21,7 @@ export class Task {
         this.updatedAt = new Date()
     }
 
-    statusIs(statuses: TaskStatus[]): Boolean {
+    statusIs(statuses: TaskStatus[]): boolean {
         return statuses.indexOf(this.status) !== -1
     }
 

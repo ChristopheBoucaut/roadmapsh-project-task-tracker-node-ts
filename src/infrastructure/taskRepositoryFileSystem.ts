@@ -29,10 +29,10 @@ export class TaskRepositoryFileSystem implements TaskRepository {
         let tasks = this.getAllTasks()
 
         if (request.taskStatuses.length > 0) {
-            tasks = tasks.filter((task: Task): Boolean => task.statusIs(request.taskStatuses))
+            tasks = tasks.filter((task: Task): boolean => task.statusIs(request.taskStatuses))
         }
         if (request.taskIds.length > 0) {
-            tasks = tasks.filter((task: Task): Boolean => request.taskIds.indexOf(task.id) !== -1)
+            tasks = tasks.filter((task: Task): boolean => request.taskIds.indexOf(task.id) !== -1)
         }
 
         return tasks
@@ -56,14 +56,14 @@ export class TaskRepositoryFileSystem implements TaskRepository {
         this.updateDbContentFromTasks(tasks)
     }
 
-    delete(taskOrTaskId: Task | string): Boolean
+    delete(taskOrTaskId: Task | string): boolean
     {
         const taskIdToDelete = taskOrTaskId instanceof Task ? taskOrTaskId.id : taskOrTaskId
         const tasks = this.getAllTasks()
         for (let i = 0; i < tasks.length; i++) {
             if (tasks[i].id === taskIdToDelete) {
                 delete tasks[i]
-                this.updateDbContentFromTasks(tasks.filter((task: Task): Boolean => task instanceof Task))
+                this.updateDbContentFromTasks(tasks.filter((task: Task): boolean => task instanceof Task))
                 return true
             }
         }
@@ -107,8 +107,7 @@ export class TaskRepositoryFileSystem implements TaskRepository {
             const fileDescriptor = fs.openSync(this.pathFile, 'r')
             content = fs.readFileSync(fileDescriptor).toString()
             fs.closeSync(fileDescriptor)
-        } catch (error) {
-        }
+        } catch { /* empty */ }
 
         return content
     }
