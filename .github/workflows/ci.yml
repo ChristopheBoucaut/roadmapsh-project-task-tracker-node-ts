@@ -1,0 +1,38 @@
+name: Task manager CI
+
+on:
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Build docker image
+      run: docker compose build
+
+    - name: Install dependencies
+      run: docker compose run --rm app npm install
+
+  tests:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - run: docker compose run --rm app npm test
+
+  linter:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - run: docker compose run --rm app npx eslint
