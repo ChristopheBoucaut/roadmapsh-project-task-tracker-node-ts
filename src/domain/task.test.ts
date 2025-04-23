@@ -1,5 +1,5 @@
 import {describe, expect, test} from '@jest/globals';
-import { Task, TaskStatus } from './task';
+import { generateTaskId, Task, TaskStatus } from './task';
 
 describe("Check construct and getters", () => {
     test("With minimal informations", () => {
@@ -8,7 +8,7 @@ describe("Check construct and getters", () => {
         const createdAt = new Date()
 
         const task = new Task(
-            null,
+            generateTaskId(),
             description,
             status,
             createdAt,
@@ -23,7 +23,7 @@ describe("Check construct and getters", () => {
     })
 
     test("With full informations", () => {
-        const id = "fake-id"
+        const id = generateTaskId()
         const description = "A description"
         const status = TaskStatus.InProgress
         const createdAt = new Date()
@@ -47,7 +47,7 @@ describe("Check construct and getters", () => {
 
 test("status is", () => {
     const task = new Task(
-        null,
+        generateTaskId(),
         "",
         TaskStatus.Todo,
         new Date(),
@@ -61,7 +61,7 @@ test("status is", () => {
 
 test("update description", () => {
     const task = new Task(
-        null,
+        generateTaskId(),
         "",
         TaskStatus.Todo,
         new Date(),
@@ -77,7 +77,7 @@ test("update description", () => {
 
 test("update status", () => {
     const task = new Task(
-        null,
+        generateTaskId(),
         "",
         TaskStatus.Todo,
         new Date(),

@@ -1,4 +1,4 @@
-import { Task, TaskStatus } from "../domain/task"
+import { generateTaskId, Task, TaskStatus } from "../domain/task"
 import TaskRepository from "../domain/taskRepository"
 
 export default class CreateTask {
@@ -9,7 +9,7 @@ export default class CreateTask {
 
     execute(request: CreateTaskRequest): CreateTaskResponse {
         const task = new Task(
-            null,
+            generateTaskId(),
             request.description,
             TaskStatus.Todo,
             new Date(),

@@ -1,14 +1,11 @@
 export class Task {
-    readonly id: string
-
     constructor(
-        id: string | null,
+        readonly id: string,
         private description: string,
         private status: TaskStatus,
         readonly createdAt: Date,
         private updatedAt: Date | null,
     ) {
-        this.id = id || generateId()
     }
 
     updateDescription(description: string): void {
@@ -44,7 +41,7 @@ export enum TaskStatus {
     Done,
 }
 
-function generateId(): string {
+export function generateTaskId(): string {
     const d = new Date()
     return [
         d.getFullYear(),
