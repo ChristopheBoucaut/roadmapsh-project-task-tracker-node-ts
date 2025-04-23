@@ -2,7 +2,7 @@ import { Task, TaskStatus } from "../domain/task"
 import TaskRepository, { TaskRequest } from "../domain/taskRepository"
 import fs from 'fs'
 
-type TaskRaw = {
+type TaskEntity = {
     id: string,
     description: string,
     status: keyof typeof TaskStatus,
@@ -76,22 +76,22 @@ export class TaskRepositoryFileSystem implements TaskRepository {
         if (contentRaw === null) {
             return []
         }
-        const taskRaws: TaskRaw[] = JSON.parse(contentRaw)
+        const taskEntities: TaskEntity[] = JSON.parse(contentRaw)
 
-        return taskRaws.map(this.transformTaskRawToTask)
+        return taskEntities.map(this.toDomain)
     }
 
-    private transformTaskRawToTask(taskRaw: TaskRaw): Task {
+    private toDomain(taskEntity: TaskEntity): Task {
         return new Task(
-            taskRaw.id,
-            taskRaw.description,
-            TaskStatus[taskRaw.status],
-            new Date(taskRaw.createdAt),
-            taskRaw.updatedAt ? new Date(taskRaw.updatedAt) : null,
+            taskEntity.id,
+            taskEntity.description,
+            TaskStatus[taskEntity.status],
+            new Date(taskEntity.createdAt),
+            taskEntity.updatedAt ? new Date(taskEntity.updatedAt) : null,
         )
     }
 
-    private transformTaskToTaskRaw(task: Task): TaskRaw {
+    private toEntity(task: Task): TaskEntity {
         return {
             id: task.id,
             description: task.getDescription(),
@@ -113,12 +113,12 @@ export class TaskRepositoryFileSystem implements TaskRepository {
     }
 
     private updateDbContentFromTasks(tasks: Task[]): void {
-        this.updateDbContentRaw(tasks.map(this.transformTaskToTaskRaw))
+        this.updateDbContentRaw(tasks.map(this.toEntity))
     }
 
-    private updateDbContentRaw(taskRaws: TaskRaw[]): void {
+    private updateDbContentRaw(taskEntities: TaskEntity[]): void {
         const fileDescriptor = fs.openSync(this.pathFile, 'w+')
-        fs.writeSync(fileDescriptor, JSON.stringify(taskRaws))
+        fs.writeSync(fileDescriptor, JSON.stringify(taskEntities))
         fs.closeSync(fileDescriptor)
     }
 }
