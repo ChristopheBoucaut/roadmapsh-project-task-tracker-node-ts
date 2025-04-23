@@ -33,6 +33,21 @@ export class Task {
     getUpdatedAt(): Date | null {
         return this.updatedAt
     }
+
+    progress(): boolean {
+        switch (this.status) {
+            case TaskStatus.Todo:
+                this.updateStatus(TaskStatus.InProgress)
+                break
+            case TaskStatus.InProgress:
+                this.updateStatus(TaskStatus.Done)
+                break
+            default:
+                return false
+        }
+
+        return true
+    }
 }
 
 export enum TaskStatus {

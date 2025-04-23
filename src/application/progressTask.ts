@@ -14,15 +14,8 @@ export default class ProgressTask {
             return ProgressTaskResponse.createForError(`Task not found for id ${request.taskId}`)
         }
 
-        switch (task.getStatus()) {
-            case TaskStatus.Todo:
-                task.updateStatus(TaskStatus.InProgress)
-                break
-            case TaskStatus.InProgress:
-                task.updateStatus(TaskStatus.Done)
-                break
-            default:
-                return ProgressTaskResponse.createForError(`Task is done, you can't advance it for id ${request.taskId}`)
+        if (!task.progress()) {
+            return ProgressTaskResponse.createForError(`Task is done, you can't advance it for id ${request.taskId}`)
         }
         this.taskRepository.save(task)
 

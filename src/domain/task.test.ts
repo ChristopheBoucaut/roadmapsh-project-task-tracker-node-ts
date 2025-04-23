@@ -89,3 +89,17 @@ test("update status", () => {
     expect(task.getStatus()).toBe(TaskStatus.Done)
     expect(task.getUpdatedAt()).toBeInstanceOf(Date)
 })
+
+test("progress task", () => {
+    const task = new Task(
+        generateTaskId(),
+        "",
+        TaskStatus.Todo,
+        new Date(),
+        null
+    )
+
+    expect(task.progress()).toBeTruthy()
+    expect(task.progress()).toBeTruthy()
+    expect(task.progress()).toBeFalsy()
+})
