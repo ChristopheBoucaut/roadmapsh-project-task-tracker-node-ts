@@ -1,5 +1,5 @@
 import { expect, test } from "@jest/globals";
-import { TaskRepositoryInMemory } from "../../tests/mocks/taskRepositoryInMemory";
+import { TaskRepositoryInMemory } from "../../test/mocks/taskRepositoryInMemory";
 import CreateTask, { CreateTaskRequest } from "./createTask";
 import { TaskStatus } from "../domain/task";
 

@@ -1,6 +1,6 @@
 import { expect, test } from "@jest/globals";
 import { Task, TaskStatus } from "../domain/task";
-import { TaskRepositoryInMemory } from "../../tests/mocks/taskRepositoryInMemory";
+import { TaskRepositoryInMemory } from "../../test/mocks/taskRepositoryInMemory";
 import ProgressTask, { ProgressTaskRequest } from "./progressTask";
 import { describe } from "node:test";
 

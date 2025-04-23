@@ -13,20 +13,17 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Build docker image
-      run: docker compose build
+    - name: Init project
+      run: make app-init
 
-    - name: Install dependencies
-      run: docker compose run --rm app npm install
-
-  tests:
+  test:
     needs: build
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
 
-    - run: docker compose run --rm app npm test
+    - run: make app-test
 
   linter:
     needs: build
@@ -35,4 +32,4 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - run: docker compose run --rm app npx eslint
+    - run: make app-linter
