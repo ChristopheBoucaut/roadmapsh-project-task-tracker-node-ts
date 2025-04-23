@@ -9,15 +9,13 @@ Docker & Docker compose.
 ## Instructions
 
 1. git clone ...
-2. `docker compose build`
-3. `docker compose run --rm app npm install`
+2. `make init`
 
 # Use project
 
-1. Run container : `docker compose run --rm app bash`
-2. Run app : `npm run app`
-3. Run test : `npm test`
-4. Run linter : `npx eslint`
+1. Run app : `make app-run`
+2. Run test : `make app-test`
+3. Run linter : `make app-linter`
 
 # Github action locally
 

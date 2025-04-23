@@ -5,3 +5,4 @@ services:
         volumes:
             - .:/home/app
         working_dir: /home/app
+        user: "${USER_UID}:${USER_GID}"
