@@ -1,5 +1,5 @@
 import { Task, TaskStatus } from "../domain/task"
-import TaskRepository, { TaskRequest } from "../domain/taskRepository"
+import TaskRepository, { createQuery } from "../domain/taskRepository"
 
 export default class FindTasks {
     constructor(
@@ -8,7 +8,9 @@ export default class FindTasks {
     }
 
     execute(request: FindTasksRequest): FindTasksResponse {
-        const tasks = this.taskRepository.find(new TaskRequest(request.taskStatus !== null ? [request.taskStatus] : []))
+        const tasks = this.taskRepository.find(createQuery(
+            request.taskStatus !== null ? [request.taskStatus] : []
+        ))
 
         return new FindTasksResponse(tasks)
     }

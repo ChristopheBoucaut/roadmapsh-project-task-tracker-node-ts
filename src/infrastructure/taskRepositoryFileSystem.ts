@@ -1,5 +1,5 @@
 import { Task, TaskStatus } from "../domain/task"
-import TaskRepository, { TaskRequest } from "../domain/taskRepository"
+import TaskRepository, { createQuery, Query } from "../domain/taskRepository"
 import fs from 'fs'
 
 type TaskEntity = {
@@ -17,7 +17,7 @@ export class TaskRepositoryFileSystem implements TaskRepository {
     }
 
     get(id: string): Task | null {
-        const tasks = this.find(new TaskRequest([], [id]))
+        const tasks = this.find(createQuery([], [id]))
         if (tasks.length > 1) {
             throw new Error(`We find ${tasks.length} tasks for id ${id}`)
         }
@@ -25,14 +25,14 @@ export class TaskRepositoryFileSystem implements TaskRepository {
         return tasks[0] || null
     }
 
-    find(request: TaskRequest): Task[] {
+    find(query: Query): Task[] {
         let tasks = this.getAllTasks()
 
-        if (request.taskStatuses.length > 0) {
-            tasks = tasks.filter((task: Task): boolean => task.statusIs(request.taskStatuses))
+        if (query.taskStatuses.length > 0) {
+            tasks = tasks.filter((task: Task): boolean => task.statusIs(query.taskStatuses))
         }
-        if (request.taskIds.length > 0) {
-            tasks = tasks.filter((task: Task): boolean => request.taskIds.indexOf(task.id) !== -1)
+        if (query.taskIds.length > 0) {
+            tasks = tasks.filter((task: Task): boolean => query.taskIds.indexOf(task.id) !== -1)
         }
 
         return tasks
@@ -51,7 +51,7 @@ export class TaskRepositoryFileSystem implements TaskRepository {
         this.updateDbContentFromTasks(tasks)
     }
 
-    delete(taskOrTaskId: Task | string): boolean
+    delete(taskOrTaskId: Task | Task['id']): boolean
     {
         const taskIdToDelete = taskOrTaskId instanceof Task ? taskOrTaskId.id : taskOrTaskId
         const tasks = this.getAllTasks()
