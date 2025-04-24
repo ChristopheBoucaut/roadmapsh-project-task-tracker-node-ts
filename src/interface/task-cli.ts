@@ -59,12 +59,6 @@ function updateAction(): void {
             askAction()
         })
     })
-
-    rl.question(`Enter description :\n`, (description: string) => {
-        const response = createTask.execute(new CreateTaskRequest(description))
-        rl.write(`Task created with id ${response.task.id}\n`)
-        askAction()
-    })
 }
 
 function listAction(): void {
