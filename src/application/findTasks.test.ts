@@ -1,7 +1,7 @@
-import { beforeAll, expect, test } from "@jest/globals";
-import { TaskRepositoryInMemory } from "../../test/mocks/taskRepositoryInMemory";
-import { Task, TaskStatus } from "../domain/task";
-import FindTasks, { FindTasksRequest } from "./findTasks";
+import { beforeAll, expect, test } from "vitest"
+import { TaskRepositoryInMemory } from "../../test/mocks/taskRepositoryInMemory"
+import { Task, TaskStatus } from "../domain/task"
+import FindTasks, { FindTasksRequest } from "./findTasks"
 
 const taskInTodo = new Task('fake-id-todo', "", TaskStatus.Todo, new Date(), null)
 const taskInDone = new Task('fake-id-done', "", TaskStatus.Done, new Date(), null)
@@ -11,7 +11,7 @@ beforeAll(() => {
     repository = new TaskRepositoryInMemory()
     repository.save(taskInTodo)
     repository.save(taskInDone)
-});
+})
 
 test("Find a task without filter", () => {
     const findTasks = new FindTasks(repository)

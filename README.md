@@ -15,6 +15,7 @@ Docker & Docker compose.
 
 1. Run app : `make app-run`
 2. Run test : `make app-test`
+   1. To dev, you can run `make app-test-watch`.
 3. Run linter : `make app-linter`
 
 # Github action locally

@@ -1,8 +1,8 @@
-import { expect, test } from "@jest/globals";
-import { Task, TaskStatus } from "../domain/task";
-import { TaskRepositoryInMemory } from "../../test/mocks/taskRepositoryInMemory";
-import ProgressTask, { ProgressTaskRequest } from "./progressTask";
-import { describe } from "node:test";
+import { expect, test } from "vitest"
+import { Task, TaskStatus } from "../domain/task"
+import { TaskRepositoryInMemory } from "../../test/mocks/taskRepositoryInMemory"
+import ProgressTask, { ProgressTaskRequest } from "./progressTask"
+import { describe } from "node:test"
 
 describe("Progress task", () => {
     test("Todo to InProgress", () => {

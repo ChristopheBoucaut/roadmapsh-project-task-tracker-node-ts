@@ -1,7 +1,7 @@
-import { expect, test } from "@jest/globals";
-import { TaskRepositoryInMemory } from "../../test/mocks/taskRepositoryInMemory";
-import CreateTask, { CreateTaskRequest } from "./createTask";
-import { TaskStatus } from "../domain/task";
+import { expect, test } from "vitest"
+import { TaskRepositoryInMemory } from "../../test/mocks/taskRepositoryInMemory"
+import CreateTask, { CreateTaskRequest } from "./createTask"
+import { TaskStatus } from "../domain/task"
 
 test("Create a new task", () => {
     const description = "A description"

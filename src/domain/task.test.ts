@@ -1,5 +1,5 @@
-import {describe, expect, test} from '@jest/globals';
-import { generateTaskId, Task, TaskStatus } from './task';
+import {describe, expect, test} from 'vitest'
+import { generateTaskId, Task, TaskStatus } from './task'
 
 describe("Check construct and getters", () => {
     test("With minimal informations", () => {

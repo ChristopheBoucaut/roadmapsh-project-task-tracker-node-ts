@@ -22,6 +22,9 @@ app-run:
 app-test:
 	docker compose run --rm app npm test
 
+app-test-watch:
+	docker compose run --rm app npm run test-watch
+
 app-linter:
 	docker compose run --rm app npx tsc
 	docker compose run --rm app npx eslint

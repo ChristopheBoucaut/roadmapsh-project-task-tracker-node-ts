@@ -1,8 +1,8 @@
-import { afterAll, describe, expect, test } from "@jest/globals";
+import { afterAll, describe, expect, test } from "vitest"
 import fs from 'fs'
-import { TaskRepositoryFileSystem } from "./taskRepositoryFileSystem";
-import { Task, TaskStatus } from "../domain/task";
-import { TaskRequest } from "../domain/taskRepository";
+import { TaskRepositoryFileSystem } from "./taskRepositoryFileSystem"
+import { Task, TaskStatus } from "../domain/task"
+import { TaskRequest } from "../domain/taskRepository"
 
 const d = new Date()
 const filename = [

@@ -1,7 +1,7 @@
-import { expect, test } from "@jest/globals";
-import { TaskRepositoryInMemory } from "../../test/mocks/taskRepositoryInMemory";
-import { Task, TaskStatus } from "../domain/task";
-import DeleteTask, { DeleteTaskRequest } from "./deleteTask";
+import { expect, test } from "vitest"
+import { TaskRepositoryInMemory } from "../../test/mocks/taskRepositoryInMemory"
+import { Task, TaskStatus } from "../domain/task"
+import DeleteTask, { DeleteTaskRequest } from "./deleteTask"
 
 test("Delete a task", () => {
     const task = new Task(
