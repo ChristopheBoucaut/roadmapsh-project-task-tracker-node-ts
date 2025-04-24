@@ -1,9 +1,4 @@
 import { TaskStatus } from "../domain/task"
-import { CreateTaskRequest } from "../application/createTask"
-import { DeleteTaskRequest } from "../application/deleteTask"
-import { FindTasksRequest } from "../application/findTasks"
-import { ProgressTaskRequest } from "../application/progressTask"
-import { UpdateTaskRequest } from "../application/updateTask"
 import { createTask, deleteTask, findTasks, progressTask, updateTask } from "../config/container"
 import readline from 'readline'
 
@@ -37,7 +32,7 @@ function askAction(): void {
 
 function addAction(): void {
     rl.question(`Enter description :\n`, (description: string) => {
-        const response = createTask.execute(new CreateTaskRequest(description))
+        const response = createTask({description})
         rl.write(`Task created with id ${response.task.id}\n`)
         askAction()
     })
@@ -48,8 +43,7 @@ function updateAction(): void {
         rl.question(`New description: \n`, (newDescription: string) => {
             cleanOutput()
 
-            const request = new UpdateTaskRequest(taskId, newDescription)
-            const response = updateTask.execute(request)
+            const response = updateTask({taskId, newDescription})
             if (response.errorMsg) {
                 rl.write(`Can't update description for ${taskId}: ${response.errorMsg}\n`)
             } else {
@@ -70,13 +64,13 @@ function listAction(): void {
     rl.question(`Filter on status : ${statusFilters.join(', ')} \n`, (filter: string) => {
         cleanOutput()
 
-        const request = new FindTasksRequest(
-            Object.keys(TaskStatus).indexOf(filter) !== -1 ?
+        const request = {
+            taskStatus: Object.keys(TaskStatus).indexOf(filter) !== -1 ?
                 TaskStatus[filter as keyof typeof TaskStatus] :
                 null
-        )
+        }
 
-        const response = findTasks.execute(request)
+        const response = findTasks(request)
 
         if (response.tasks.length === 0) {
             rl.write(`no tasks found\n`)
@@ -94,8 +88,7 @@ function progressAction(): void {
     rl.question(`Which task to progress ?\n`, (taskId: string) => {
         cleanOutput()
 
-        const request = new ProgressTaskRequest(taskId)
-        const response = progressTask.execute(request)
+        const response = progressTask({taskId})
         if (response.errorMsg) {
             rl.write(`Can't progress task ${taskId}: ${response.errorMsg}\n`)
         } else {
@@ -110,8 +103,7 @@ function deleteAction(): void {
     rl.question(`Which task to delete ?\n`, (taskId: string) => {
         cleanOutput()
 
-        const request = new DeleteTaskRequest(taskId)
-        const response = deleteTask.execute(request)
+        const response = deleteTask({taskId})
         if (response.deleted) {
             rl.write(`Task ${taskId} deleted\n`)
         } else {

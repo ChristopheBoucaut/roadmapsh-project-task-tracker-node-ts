@@ -1,13 +1,8 @@
 import { generateTaskId, Task, TaskStatus } from "../domain/task"
 import TaskRepository from "../domain/taskRepository"
 
-export default class CreateTask {
-    constructor(
-        private taskRepository: TaskRepository
-    ) {
-    }
-
-    execute(request: CreateTaskRequest): CreateTaskResponse {
+export default function setupCreateTask(taskRepository: TaskRepository): (request: CreateTaskRequest) => CreateTaskResponse {
+    return (request: CreateTaskRequest): CreateTaskResponse => {
         const task = new Task(
             generateTaskId(),
             request.description,
@@ -15,22 +10,16 @@ export default class CreateTask {
             new Date(),
             null
         )
-        this.taskRepository.save(task)
+        taskRepository.save(task)
 
-        return new CreateTaskResponse(task)
+        return {task}
     }
 }
 
-export class CreateTaskRequest {
-    constructor(
-        readonly description: string
-    ) {
-    }
-}
+type CreateTaskRequest = Readonly<{
+    description: Task['description'],
+}>
 
-class CreateTaskResponse {
-    constructor(
-        readonly task: Task
-    ) {
-    }
-}
+type CreateTaskResponse = Readonly<{
+    task: Task,
+}>
