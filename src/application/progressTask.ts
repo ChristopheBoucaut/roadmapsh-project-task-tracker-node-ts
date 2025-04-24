@@ -1,43 +1,32 @@
-import { TaskStatus } from "../domain/task"
+import { Task, TaskStatus } from "../domain/task"
 import TaskRepository from "../domain/taskRepository"
 
-export default class ProgressTask {
-    constructor(
-        private taskRepository: TaskRepository
-    ) {
-    }
-
-    execute(request: ProgressTaskRequest): ProgressTaskResponse {
-        const task = this.taskRepository.get(request.taskId)
+export default function setupProgressTask(taskRepository: TaskRepository): (request: ProgressTaskRequest) => ProgressTaskResponse {
+    return (request: ProgressTaskRequest): ProgressTaskResponse => {
+        const task = taskRepository.get(request.taskId)
 
         if (!task) {
-            return ProgressTaskResponse.createForError(`Task not found for id ${request.taskId}`)
+            return createResponseForError(`Task not found for id ${request.taskId}`)
         }
 
         if (!task.progress()) {
-            return ProgressTaskResponse.createForError(`Task is done, you can't advance it for id ${request.taskId}`)
+            return createResponseForError(`Task is done, you can't advance it for id ${request.taskId}`)
         }
-        this.taskRepository.save(task)
+        taskRepository.save(task)
 
-        return new ProgressTaskResponse(task.getStatus())
+        return {newStatus: task.getStatus(), errorMsg: null}
     }
 }
 
-export class ProgressTaskRequest {
-    constructor(
-        readonly taskId: string
-    ) {
-    }
-}
+type ProgressTaskRequest = Readonly<{
+    taskId: Task['id'],
+}>
 
-class ProgressTaskResponse {
-    constructor(
-        readonly newStatus: TaskStatus | null,
-        readonly errorMsg: string | null = null,
-    ) {
-    }
+type ProgressTaskResponse = Readonly<{
+    newStatus: TaskStatus | null,
+    errorMsg: string | null,
+}>
 
-    static createForError(errorMsg: string): ProgressTaskResponse {
-        return new ProgressTaskResponse(null, errorMsg)
-    }
+function createResponseForError(errorMsg: string): ProgressTaskResponse {
+    return {newStatus: null, errorMsg: errorMsg}
 }

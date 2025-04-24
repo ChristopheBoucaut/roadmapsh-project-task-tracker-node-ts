@@ -1,7 +1,7 @@
 import { expect, test } from "vitest"
 import { TaskRepositoryInMemory } from "../../test/mocks/taskRepositoryInMemory"
 import { Task, TaskStatus } from "../domain/task"
-import DeleteTask, { DeleteTaskRequest } from "./deleteTask"
+import setupDeleteTask from "./deleteTask"
 
 test("Delete a task", () => {
     const task = new Task(
@@ -14,12 +14,12 @@ test("Delete a task", () => {
 
     const repository = new TaskRepositoryInMemory()
     repository.save(task)
-    const deleteTask = new DeleteTask(repository)
+    const deleteTask = setupDeleteTask(repository)
 
-    const responseForExistingTask = deleteTask.execute(new DeleteTaskRequest(task.id))
+    const responseForExistingTask = deleteTask({taskId: task.id})
     expect(responseForExistingTask.deleted).toBeTruthy()
     expect(repository.get(task.id)).toBeNull()
 
-    const responseForUnexistingTask = deleteTask.execute(new DeleteTaskRequest(task.id))
+    const responseForUnexistingTask = deleteTask({taskId: task.id})
     expect(responseForUnexistingTask.deleted).toBeFalsy()
 })

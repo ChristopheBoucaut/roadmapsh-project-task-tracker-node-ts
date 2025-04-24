@@ -1,14 +1,14 @@
 import { expect, test } from "vitest"
 import { TaskRepositoryInMemory } from "../../test/mocks/taskRepositoryInMemory"
-import CreateTask, { CreateTaskRequest } from "./createTask"
 import { TaskStatus } from "../domain/task"
+import setupCreateTask from "./createTask"
 
 test("Create a new task", () => {
     const description = "A description"
     const repository = new TaskRepositoryInMemory()
-    const createTask = new CreateTask(repository)
+    const createTask = setupCreateTask(repository)
 
-    const response = createTask.execute(new CreateTaskRequest(description))
+    const response = createTask({description})
 
     expect(response.task.id).toMatch(/.+/)
     expect(response.task.getDescription()).toBe(description)
