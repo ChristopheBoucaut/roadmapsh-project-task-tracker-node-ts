@@ -2,7 +2,7 @@ import { afterAll, describe, expect, test } from "vitest"
 import fs from 'fs'
 import { TaskRepositoryFileSystem } from "./taskRepositoryFileSystem"
 import { Task, TaskStatus } from "../domain/task"
-import { TaskRequest } from "../domain/taskRepository"
+import { createQuery } from "../domain/taskRepository"
 
 const d = new Date()
 const filename = [
@@ -49,26 +49,26 @@ describe("Test cycle of life", () => {
     })
 
     test("Find tasks without filter", () => {
-        const tasks = repository.find(new TaskRequest())
+        const tasks = repository.find(createQuery())
         expect(tasks).toStrictEqual([expectedTask1, expectedTask2])
     })
 
     test("Find tasks with filter on one status", () => {
-        const tasks = repository.find(new TaskRequest(
+        const tasks = repository.find(createQuery(
             [TaskStatus.InProgress]
         ))
         expect(tasks).toStrictEqual([expectedTask2])
     })
 
     test("Find tasks with filter on 2 statuses", () => {
-        const tasks = repository.find(new TaskRequest(
+        const tasks = repository.find(createQuery(
             [TaskStatus.InProgress, TaskStatus.Todo]
         ))
         expect(tasks).toStrictEqual([expectedTask1, expectedTask2])
     })
 
     test("Find tasks with filter on 2 statuses and 1 id", () => {
-        const tasks = repository.find(new TaskRequest(
+        const tasks = repository.find(createQuery(
             [TaskStatus.InProgress, TaskStatus.Todo],
             [expectedTask1.id]
         ))
@@ -76,7 +76,7 @@ describe("Test cycle of life", () => {
     })
 
     test("Find tasks with filter on 2 statuses and 3 ids", () => {
-        const tasks = repository.find(new TaskRequest(
+        const tasks = repository.find(createQuery(
             [TaskStatus.InProgress, TaskStatus.Todo],
             [expectedTask1.id, expectedTask2.id, 'unknown-id']
         ))
