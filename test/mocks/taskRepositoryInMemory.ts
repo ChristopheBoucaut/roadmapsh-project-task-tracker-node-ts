@@ -12,7 +12,7 @@ export class TaskRepositoryInMemory implements TaskRepository {
         const tasks: Task[] = []
 
         for (const taskId in this.tasks) {
-            if (request.taskStatuses.length > 0 && !this.tasks[taskId].statusIs(request.taskStatuses)) {
+            if (!this.tasks[taskId] || request.taskStatuses.length > 0 && !this.tasks[taskId].statusIs(request.taskStatuses)) {
                 continue
             }
             tasks.push(this.tasks[taskId])

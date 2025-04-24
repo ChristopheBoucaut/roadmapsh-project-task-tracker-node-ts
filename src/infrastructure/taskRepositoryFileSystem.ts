@@ -22,7 +22,7 @@ export class TaskRepositoryFileSystem implements TaskRepository {
             throw new Error(`We find ${tasks.length} tasks for id ${id}`)
         }
 
-        return tasks.length === 1 ? tasks[0] : null
+        return tasks[0] || null
     }
 
     find(request: TaskRequest): Task[] {
@@ -40,14 +40,9 @@ export class TaskRepositoryFileSystem implements TaskRepository {
 
     save(task: Task): void {
         const tasks = this.getAllTasks()
-        let existPosition = null
-        for (let i = 0; i < tasks.length; i++) {
-            if (tasks[i].id === task.id) {
-                existPosition = i
-                break
-            }
-        }
-        if (existPosition !== null) {
+        const existPosition = tasks.findIndex((taskInArr) => taskInArr.id === task.id)
+
+        if (existPosition !== -1) {
             tasks[existPosition] = task
         } else {
             tasks.push(task)
@@ -60,15 +55,15 @@ export class TaskRepositoryFileSystem implements TaskRepository {
     {
         const taskIdToDelete = taskOrTaskId instanceof Task ? taskOrTaskId.id : taskOrTaskId
         const tasks = this.getAllTasks()
-        for (let i = 0; i < tasks.length; i++) {
-            if (tasks[i].id === taskIdToDelete) {
-                delete tasks[i]
-                this.updateDbContentFromTasks(tasks.filter((task: Task): boolean => task instanceof Task))
-                return true
-            }
+
+        const existPosition = tasks.findIndex((taskInArr) => taskInArr.id === taskIdToDelete)
+        if (existPosition === -1) {
+            return false
         }
 
-        return false
+        delete tasks[existPosition]
+        this.updateDbContentFromTasks(tasks.filter((task: Task): boolean => task instanceof Task))
+        return true
     }
 
     private getAllTasks(): Task[] {

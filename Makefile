@@ -23,4 +23,5 @@ app-test:
 	docker compose run --rm app npm test
 
 app-linter:
+	docker compose run --rm app npx tsc
 	docker compose run --rm app npx eslint

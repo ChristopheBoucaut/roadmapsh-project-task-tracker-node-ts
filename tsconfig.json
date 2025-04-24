@@ -11,6 +11,17 @@
       "isolatedModules": true,
       "noUnusedLocals": true,
       "noUnusedParameters": true,
+      "allowJs": true,
+      "allowSyntheticDefaultImports": true,
+      "forceConsistentCasingInFileNames": true,
+      "noUncheckedIndexedAccess": true,
+      "resolveJsonModule": true,
+      "skipLibCheck": true,
+      "noEmit": true, // Just a linter, node-ts will execute *.ts in live
+      // "typeRoots": [], // Remove global type, comment for now, vscode throws error for 'types' config
+      "types": ["node"], // Add only node global type
+      "paths": {}, // used to create aliases to import, eg: @mylib => ./lib/mylib
+      "baseUrl": "./", // Works with paths
     },
     "include": [
       "src/**/*.ts", "test/**/*.ts",
@@ -18,5 +29,5 @@
     "exclude": [
       "node_modules/**/*",
     ],
-    "lib": ["es2015"]
+    "lib": ["es2015"],
 }
