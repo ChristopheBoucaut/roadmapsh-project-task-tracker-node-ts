@@ -9,7 +9,7 @@ Docker & Docker compose.
 ## Instructions
 
 1. git clone ...
-2. `make init`
+2. `make app-init`
 
 # Use project
 
