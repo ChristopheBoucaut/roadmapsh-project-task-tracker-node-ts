@@ -1,16 +1,23 @@
 import { Task, TaskStatus } from "./task"
 
 export default interface TaskRepository {
-    find(request: TaskRequest): Task[]
+    find(query: Query): Task[]
     get(id: string): Task | null
     save(task: Task): void
-    delete(taskOrTaskId: Task | string): boolean
+    delete(taskOrTaskId: Task | Task['id']): boolean
 }
 
-export class TaskRequest {
-    constructor(
-        readonly taskStatuses: TaskStatus[] = [],
-        readonly taskIds: string[] = [],
-    ) {
+export type Query = Readonly<{
+    taskStatuses: TaskStatus[],
+    taskIds: string[],
+}>
+
+export function createQuery(
+    taskStatuses: TaskStatus[] = [],
+    taskIds: string[] = [],
+): Query {
+    return {
+        taskStatuses,
+        taskIds,
     }
 }

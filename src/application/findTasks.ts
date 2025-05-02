@@ -1,29 +1,20 @@
 import { Task, TaskStatus } from "../domain/task"
-import TaskRepository, { TaskRequest } from "../domain/taskRepository"
+import TaskRepository, { createQuery } from "../domain/taskRepository"
 
-export default class FindTasks {
-    constructor(
-        private taskRepository: TaskRepository
-    ) {
-    }
+export default function setupFindTasks(taskRepository: TaskRepository): (request: FindTasksRequest) => FindTasksResponse {
+    return (request: FindTasksRequest): FindTasksResponse => {
+        const tasks = taskRepository.find(createQuery(
+            request.taskStatus !== null ? [request.taskStatus] : []
+        ))
 
-    execute(request: FindTasksRequest): FindTasksResponse {
-        const tasks = this.taskRepository.find(new TaskRequest(request.taskStatus !== null ? [request.taskStatus] : []))
-
-        return new FindTasksResponse(tasks)
+        return {tasks}
     }
 }
 
-export class FindTasksRequest {
-    constructor(
-        readonly taskStatus: TaskStatus | null
-    ) {
-    }
-}
+type FindTasksRequest = Readonly<{
+    taskStatus: TaskStatus | null,
+}>
 
-class FindTasksResponse {
-    constructor(
-        readonly tasks: Task[]
-    ) {
-    }
-}
+type FindTasksResponse = Readonly<{
+    tasks: Task[],
+}>

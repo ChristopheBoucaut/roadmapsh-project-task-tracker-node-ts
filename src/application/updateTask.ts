@@ -1,40 +1,30 @@
+import { Task } from "src/domain/task"
 import TaskRepository from "../domain/taskRepository"
 
-export default class UpdateTask {
-    constructor(
-        private taskRepository: TaskRepository
-    ) {
-    }
-
-    execute(request: UpdateTaskRequest): UpdateTaskResponse {
-        const task = this.taskRepository.get(request.taskId)
+export default function setupUpdateTask(taskRepository: TaskRepository): (request: UpdateTaskRequest) => UpdateTaskResponse {
+    return (request: UpdateTaskRequest): UpdateTaskResponse => {
+        const task = taskRepository.get(request.taskId)
 
         if (!task) {
-            return UpdateTaskResponse.createForError(`Task not found for id ${request.taskId}`)
+            return createResponseForError(`Task not found for id ${request.taskId}`)
         }
 
         task.updateDescription(request.newDescription)
-        this.taskRepository.save(task)
+        taskRepository.save(task)
 
-        return new UpdateTaskResponse()
+        return {errorMsg: null}
     }
 }
 
-export class UpdateTaskRequest {
-    constructor(
-        readonly taskId: string,
-        readonly newDescription: string,
-    ) {
-    }
-}
+type UpdateTaskRequest = Readonly<{
+    taskId: Task['id'],
+    newDescription: Task['description'],
+}>
 
-class UpdateTaskResponse {
-    constructor(
-        readonly errorMsg: string | null = null,
-    ) {
-    }
+type UpdateTaskResponse = Readonly<{
+    errorMsg: string | null,
+}>
 
-    static createForError(errorMsg: string): UpdateTaskResponse {
-        return new UpdateTaskResponse(errorMsg)
-    }
+function createResponseForError(errorMsg: string): UpdateTaskResponse {
+    return {errorMsg}
 }

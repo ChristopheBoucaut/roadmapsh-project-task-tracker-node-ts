@@ -1,28 +1,18 @@
+import { Task } from "src/domain/task"
 import TaskRepository from "../domain/taskRepository"
 
-export default class DeleteTask {
-    constructor(
-        private taskRepository: TaskRepository
-    ) {
-    }
+export default function setupDeleteTask(taskRepository: TaskRepository): (request: DeleteTaskRequest) => DeleteTaskResponse {
+    return (request: DeleteTaskRequest): DeleteTaskResponse => {
+        const deleted = taskRepository.delete(request.taskId)
 
-    execute(request: DeleteTaskRequest): DeleteTaskResponse {
-        const deleted = this.taskRepository.delete(request.taskId)
-
-        return new DeleteTaskResponse(deleted)
+        return {deleted}
     }
 }
 
-export class DeleteTaskRequest {
-    constructor(
-        readonly taskId: string,
-    ) {
-    }
-}
+type DeleteTaskRequest = Readonly<{
+    taskId: Task['id'],
+}>
 
-class DeleteTaskResponse {
-    constructor(
-        readonly deleted: boolean,
-    ) {
-    }
-}
+type DeleteTaskResponse = Readonly<{
+    deleted: boolean,
+}>
