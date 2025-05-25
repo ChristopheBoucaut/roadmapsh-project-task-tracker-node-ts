@@ -1,5 +1,5 @@
 import { Task } from "../../src/domain/task"
-import TaskRepository, { TaskRequest } from "../../src/domain/taskRepository"
+import TaskRepository, { Query } from "../../src/domain/taskRepository"
 
 export class TaskRepositoryInMemory implements TaskRepository {
     private readonly tasks: Record<string, Task> = {}
@@ -8,11 +8,11 @@ export class TaskRepositoryInMemory implements TaskRepository {
         return this.tasks[id] || null
     }
 
-    find(request: TaskRequest): Task[] {
+    find(query: Query): Task[] {
         const tasks: Task[] = []
 
         for (const taskId in this.tasks) {
-            if (!this.tasks[taskId] || request.taskStatuses.length > 0 && !this.tasks[taskId].statusIs(request.taskStatuses)) {
+            if (!this.tasks[taskId] || query.taskStatuses.length > 0 && !this.tasks[taskId].statusIs(query.taskStatuses)) {
                 continue
             }
             tasks.push(this.tasks[taskId])
@@ -25,7 +25,7 @@ export class TaskRepositoryInMemory implements TaskRepository {
         this.tasks[task.id] = task
     }
 
-    delete(taskOrTaskId: Task | string): boolean
+    delete(taskOrTaskId: Task | Task['id']): boolean
     {
         const taskIdToDelete = taskOrTaskId instanceof Task ? taskOrTaskId.id : taskOrTaskId
         if (this.tasks[taskIdToDelete]) {
