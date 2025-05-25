@@ -1,5 +1,9 @@
 name: Task manager CI
 
+env:
+  USER_UID: 0
+  USER_GID: 0
+
 on:
   push:
     branches: [ master ]
