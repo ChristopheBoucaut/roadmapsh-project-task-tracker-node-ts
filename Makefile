@@ -1,6 +1,9 @@
-export USER_UID=$(shell id -u)
-export USER_GID=$(shell id -g)
-export DIR_PATH=$(shell pwd)
+USER_UID ?= $(shell id -u)
+export USER_UID
+USER_GID ?= $(shell id -g)
+export USER_GID
+DIR_PATH ?= $(shell pwd)
+export DIR_PATH
 
 # Docker
 docker-build:

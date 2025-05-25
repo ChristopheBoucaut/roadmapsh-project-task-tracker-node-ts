@@ -1,5 +1,9 @@
 name: Task manager CI
 
+env:
+  USER_UID: 0
+  USER_GID: 0
+
 on:
   push:
     branches: [ master ]
@@ -13,8 +17,26 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Cache node_modules
+      id: cache-node-modules
+      uses: actions/cache@v4
+      with:
+        path: |
+          node_modules
+        key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+
     - name: Init project
+      if: steps.cache-node-modules.outputs.cache-hit != 'true'
       run: make app-init
+
+    - name: Save node_modules
+      id: cache-node-modules-save
+      if: steps.cache-node-modules.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: |
+          node_modules
+        key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
 
   test:
     needs: build
@@ -22,6 +44,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+
+    - name: Restore cached node_modules
+      id: cache-node-modules-restore
+      uses: actions/cache/restore@v4
+      with:
+        path: |
+          node_modules
+        key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
 
     - run: make app-test
 
@@ -31,5 +61,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+
+    - name: Restore cached node_modules
+      id: cache-node-modules-restore
+      uses: actions/cache/restore@v4
+      with:
+        path: |
+          node_modules
+        key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
 
     - run: make app-linter
